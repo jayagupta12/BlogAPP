@@ -17,7 +17,7 @@ async function authenticateToken(req, res, next) {
 
 
   try {
-    const payload=await jwt.verify(token, config.secret);
+    const payload= jwt.verify(token, config.secret);
     req.payload = payload;
     console.log(" token verified");
     next();
