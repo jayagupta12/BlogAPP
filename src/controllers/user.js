@@ -9,7 +9,7 @@ exports.CreateUser = async (req, res) => {
 
 exports.LoginUser = async (req, res) => {
         let response = await dbService.find("user", req.body)
-        res.send(response)
+        res.send(req.body)
 
 
 }

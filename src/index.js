@@ -12,19 +12,26 @@ const app = express();
 authMiddleware.unless = unless;
 app.use(
   authMiddleware.unless({
-    path: [/\/api\/v1\/auth*/,/\/api-documentation/],
+    path: [/\/api\/v1\/auth*/,/\/api-documentation/,/\/docs/],
   })
 );
 
 const options={
-  definition:{
-    openApi:'6.14.8',
+  swaggerDefinition:{
+    openApi:"3.0.1",
+    basePath:`/api/v1`,
     info:{
       title:'Swagger Express API',
       version:'1.0.0'
-    }
+    },
+    servers: [
+      {
+        url: `http://localhost:${config.port}`
+      }
+    ]
   },
-  apis:[user]
+
+  apis:["./src/router/*.js"]
 };
 const swaggerSpec=swaggerJSDoc(options);
 
@@ -35,4 +42,11 @@ dbCon.connectToDB();
 app.listen(config.port, () => console.log(`server started at port ${config.port}`))
 
 app.use("/api/v1/auth", user)
-app.use('/api-documentation',swaggerUi.serve,swaggerUi.setup(swaggerSpec))
+
+app.use("/docs", swaggerUi.serve);
+app.get(
+  "/docs",
+  swaggerUi.setup(swaggerSpec, {
+    explorer: true
+  })
+);
