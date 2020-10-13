@@ -2,6 +2,8 @@ const express = require("express");
 const config = require('./config/config.json')
 const user = require("./router/user_route")
 const dbCon = require("./database/connection")
+
+
 const bodyParser = require("body-parser")
 let authMiddleware = require('./middleware/auth')
 const unless = require('express-unless');
@@ -42,6 +44,7 @@ dbCon.connectToDB();
 app.listen(config.port, () => console.log(`server started at port ${config.port}`))
 
 app.use("/api/v1/auth", user)
+app.use("/api/v1/blog",user)
 
 app.use("/docs", swaggerUi.serve);
 app.get(

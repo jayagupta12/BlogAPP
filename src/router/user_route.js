@@ -2,7 +2,7 @@ const express = require('express');
 
 const router = express.Router();
 const user = require('../controllers/user')
-
+const multer = require('multer');
 
 /**
  * @swagger
@@ -69,5 +69,25 @@ router.post('/createUser', user.CreateUser)
  */
 router.post('/loginUser', user.LoginUser)
 
-router.post("/uploadBlog", user.CreateBlog);
+
+
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, 'uploads');
+    },
+    filename: (req, file, cb) => {
+        console.log(file);
+        cb(null, Date.now() + path.extname(file.originalname));
+    }
+});
+const fileFilter = (req, file, cb) => {
+    if (file.mimetype == 'image/jpeg' || file.mimetype == 'image/png') {
+        cb(null, true);
+    } else {
+        cb(null, false);
+    }
+}
+const upload = multer({ storage: storage, fileFilter: fileFilter });
+
+router.post("/uploadBlog",upload.single('image'), user.CreateBlog);
 module.exports = router;
