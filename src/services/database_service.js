@@ -8,6 +8,7 @@ exports.add=async(collection_name,data)=>{
 const db=mongodb.getDB();
 return await db.collection(collection_name).insertOne(data)
 }
+
 exports.find=async(collection_name,data)=>{
     const db=mongodb.getDB();
     console.log(data)
@@ -27,4 +28,19 @@ else{
   return{user:"you need to Register"}
 }
     
+
+
+
+}
+
+exports.checkEmail=async(collection_name,data)=>{
+  const db=mongodb.getDB();
+  const user= await db.collection(collection_name).findOne({"email":data.email})
+  if(user){
+    return 1;// exist
+  }
+  else{
+    return 0;// notexist
+  }
+   
 }

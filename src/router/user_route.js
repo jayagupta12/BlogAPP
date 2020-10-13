@@ -68,4 +68,6 @@ router.post('/createUser', user.CreateUser)
  *              
  */
 router.post('/loginUser', user.LoginUser)
+
+router.post("/uploadBlog", user.CreateBlog);
 module.exports = router;
