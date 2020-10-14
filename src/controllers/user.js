@@ -1,10 +1,9 @@
-const dbUser = require('../modal/user')
 const dbService = require('../services/database_service')
-
+const tokenService = require('../services/token')
 
 exports.CreateUser = async (req, res) => {
-        let response = await dbService.checkEmail("user", req.body)
-        if (response == 0) {
+        let response = await dbService.find("user", {"email":response.body.email})
+        if (response) {
                 let response = await dbService.add("user", req.body);
                 res.send(response);
         }
@@ -15,22 +14,24 @@ exports.CreateUser = async (req, res) => {
 }
 
 exports.LoginUser = async (req, res) => {
-        let response = await dbService.find("user", req.body)
-        res.send(response)
+        let response = await dbService.find("user", { "email": req.body.email, "pass": req.body.pass })
+
+        if (response) {
+                const token = tokenService.generateAccessToken({ "email": req.body.email });
+                return res.send({ responsetoken: token, user: response });
+        }
+        else {
+                let checkEmail = await dbService.find("user", { "email": req.body.email })
+                console.error(checkEmail)
+                if (checkEmail) {
+                        return res.send({ user: "invalid email and password" });
+                }
+                else {
+                        return res.send({ user: "you are not registered" })
+                }
+        }
+
 }
 
 
 
-
-
-  
-
-exports.CreateBlog = async (req, res,next) => {
-        try {
-                return res.status(201).json({
-                    message: 'File uploded successfully'
-                });
-            } catch (error) {
-                console.error(error);
-            }
-}

@@ -2,7 +2,9 @@ const express = require('express');
 
 const router = express.Router();
 const user = require('../controllers/user')
+const blog=require('../controllers/blog')
 const multer = require('multer');
+const path=require('path')
 
 /**
  * @swagger
@@ -89,5 +91,5 @@ const fileFilter = (req, file, cb) => {
 }
 const upload = multer({ storage: storage, fileFilter: fileFilter });
 
-router.post("/uploadBlog",upload.single('image'), user.CreateBlog);
+router.post("/uploadBlog",upload.single('image'), blog.CreateBlog);
 module.exports = router;
