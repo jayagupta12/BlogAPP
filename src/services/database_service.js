@@ -15,7 +15,23 @@ exports.find=async(collection_name,query)=>{
     const user= await db.collection(collection_name).findOne(query)
     return user;
   
+  
 
+}
+exports.findAll=async(collection_name,query)=>{
+    const db=mongodb.getDB();
+    console.log(query)
+    const blog= await db.collection(collection_name).find(query).toArray(function (err, result) {
+        if (err) {
+            return err
+        } else {
+
+            return result;
+        }
+    })
+
+
+    return blog;
   
 
 }
