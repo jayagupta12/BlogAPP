@@ -13,11 +13,11 @@ const swaggerJSDoc=require('swagger-jsdoc')
 const app = express();
 
 authMiddleware.unless = unless;
-// app.use(
-//   authMiddleware.unless({
-//     path: [/\/api\/v1\/auth*/,/\/api-documentation/,/\/docs/],
-//   })
-// );
+app.use(
+  authMiddleware.unless({
+    path: [/\/api\/v1\/auth*/,/\/api-documentation/,/\/docs/],
+  })
+);
 
 const options={
   swaggerDefinition:{

@@ -35,3 +35,8 @@ exports.findAll=async(collection_name,query)=>{
   
 
 }
+exports.deleteOne=async(collection_name,query)=>{
+    const db=mongodb.getDB();
+    const response=db.collection(collection_name).deleteOne(query)
+     return response;
+}

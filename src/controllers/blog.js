@@ -15,7 +15,8 @@ exports.CreateBlog = async (req, res) => {
                 postedby: req.body.postedby,
                 postdate: datetime,
                 imagePath: req.file.path,
-                image: req.file.filename
+                image: req.file.filename,
+                lastEdit:datetime
         }
         try {
                 let response = await dbService.add('blog', blogData)
@@ -30,4 +31,8 @@ exports.getBlogs=async (req,res)=>{
         let response=await dbService.findAll('blog',{})
         return res.send({ blogData: response });
         
+}
+exports.deleteBlog=async (req,res)=>{
+        let response=await dbService.deleteOne('blog',{"id":req.body.id})
+        return res.send({blogData: response})
 }
