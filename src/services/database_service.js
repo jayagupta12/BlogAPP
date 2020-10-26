@@ -28,9 +28,13 @@ exports.findAll=async(collection_name,query)=>{
   
 
 }
-exports.deleteOne=async(collection_name,query)=>{
+exports.delete=async(collection_name,query)=>{
     const db=mongodb.getDB();
-    const response=db.collection(collection_name).deleteOne(query)
+    console.log(collection_name,query)
+    const response=db.collection(collection_name).deleteOne(query, function(err, obj) {
+        if (err) throw err;
+        console.log(obj.result.n + " document(s) deleted");
+      });
      return response;
 }
 

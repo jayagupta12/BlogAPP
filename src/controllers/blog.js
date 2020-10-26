@@ -36,7 +36,9 @@ exports.getBlogs=async (req,res)=>{
         
 }
 exports.deleteBlog=async (req,res)=>{
-        let response=await dbService.deleteOne('blog',{"id":req.body.id})
+        console.log(req.body.id)
+        let response=await dbService.delete('blog',{"id":req.body.id})
+        
         return res.send({blogData: response})
 }
 
@@ -67,7 +69,7 @@ exports.updateBlogImage=async(req,res)=>{
                 lastEdit:datetime
         }
         try {
-                let response = await dbService.add('blog',{"id":req.body.id}, blogData)
+                let response = await dbService.UpdateOne('blog',{"id":req.body.id}, blogData)
                 res.send(response);
 
         } catch (error) {
