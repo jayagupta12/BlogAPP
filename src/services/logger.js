@@ -9,7 +9,7 @@ const logger = createLogger({
         new transports.MongoDB({
             level: 'error',
             db: 'mongodb://localhost:27017/BlogApp',
-            collection: 'blog',
+            collection: 'log',
             format: format.combine(format.timestamp(), format.json())
         })
     ]
