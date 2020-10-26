@@ -54,3 +54,23 @@ exports.updatePost=async (req,res) =>{
         logger.error(response)
         return res.send({blogData: response})
 }
+
+exports.updateBlogImage=async(req,res)=>{
+        console.log("file==>", req.file);  console.log("body==>", req.body);
+        
+
+        var datetime = new Date();
+
+        let blogData = {           
+                imagePath: req.file.path,
+                image: req.file.filename,
+                lastEdit:datetime
+        }
+        try {
+                let response = await dbService.add('blog',{"id":req.body.id}, blogData)
+                res.send(response);
+
+        } catch (error) {
+                console.error(error);
+        }
+}
