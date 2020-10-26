@@ -33,3 +33,12 @@ exports.deleteOne=async(collection_name,query)=>{
     const response=db.collection(collection_name).deleteOne(query)
      return response;
 }
+
+exports.UpdateOne=async(collection_name,condition,query)=>{
+    const db=mongodb.getDB();
+    const response=db.collection(collection_name).findOneAndUpdate(
+        condition,
+        { $set:query}
+    )
+     return response;
+}
