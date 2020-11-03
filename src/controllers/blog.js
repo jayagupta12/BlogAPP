@@ -1,6 +1,7 @@
 const dbUser = require('../modal/user')
 const dbService = require('../services/database_service')
 const logger=require("../services/logger")
+const caching=require("../middleware/rediscaching")
 
 
 exports.CreateBlog = async (req, res) => {
@@ -23,6 +24,7 @@ exports.CreateBlog = async (req, res) => {
         }
         try {
                 let response = await dbService.add('blog', blogData)
+                caching.saveCache("url",response)
                 res.send(response);
 
         } catch (error) {
